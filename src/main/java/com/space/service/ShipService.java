@@ -27,21 +27,8 @@ public class ShipService {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(order.getFieldName()).ascending());
         String type = shipType != null ? shipType.toString() : null;
-        Integer afterYear = null;
-        Integer beforeYear =  null;
-        if (after!=null) {
-            Calendar calafter = Calendar.getInstance();
-            calafter.setTime(new Date(after));
-            afterYear = calafter.get(Calendar.YEAR);
-        }
 
-        if (before!=null) {
-            Calendar calbefore = Calendar.getInstance();
-            calbefore.setTime(new Date(before));
-            beforeYear = calbefore.get(Calendar.YEAR);
-        }
-
-        return shipRepository.getShips(name, planet, type, afterYear, beforeYear, isUsed, minSpeed, maxSpeed,
+        return shipRepository.getShips(name, planet, type, (after!=null ? new Date(after) : null), (before!=null ? new Date(before):null), isUsed, minSpeed, maxSpeed,
                 minCrewSize, maxCrewSize, minRating, maxRating, pageable);
     }
 

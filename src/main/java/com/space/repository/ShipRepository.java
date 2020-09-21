@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -15,8 +17,8 @@ public interface ShipRepository extends JpaRepository<Ship, Long> {
             "CASE WHEN :name IS NOT NULL THEN name like %:name% ELSE TRUE END AND " +
             "CASE WHEN :planet IS NOT NULL THEN planet like %:planet% ELSE TRUE END AND " +
             "CASE WHEN :shipType IS NOT NULL THEN shipType = :shipType ELSE TRUE END AND " +
-            "CASE WHEN :after IS NOT NULL THEN YEAR(prodDate) >= :after ELSE TRUE END AND " +
-            "CASE WHEN :before IS NOT NULL THEN YEAR(prodDate) <= :before ELSE TRUE END AND " +
+            "CASE WHEN :after IS NOT NULL THEN prodDate >= :after ELSE TRUE END AND " +
+            "CASE WHEN :before IS NOT NULL THEN prodDate < :before ELSE TRUE END AND " +
             "CASE WHEN :isUsed IS NOT NULL THEN isUsed = :isUsed ELSE TRUE END AND " +
             "CASE WHEN :minSpeed IS NOT NULL THEN speed >= :minSpeed ELSE TRUE END AND " +
             "CASE WHEN :maxSpeed IS NOT NULL THEN speed <= :maxSpeed ELSE TRUE END AND " +
@@ -28,8 +30,8 @@ public interface ShipRepository extends JpaRepository<Ship, Long> {
     List<Ship> getShips(@Param("name") String name,
                         @Param("planet") String planet,
                         @Param("shipType") String shipType,
-                        @Param("after") Integer after,
-                        @Param("before") Integer before,
+                        @Param("after") Date after,
+                        @Param("before") Date before,
                         @Param("isUsed") Boolean isUsed,
                         @Param("minSpeed") Double minSpeed,
                         @Param("maxSpeed") Double maxSpeed,
