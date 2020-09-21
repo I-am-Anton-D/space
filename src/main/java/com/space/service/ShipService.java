@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -26,8 +27,20 @@ public class ShipService {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(order.getFieldName()).ascending());
         String type = shipType != null ? shipType.toString() : null;
-        Integer afterYear = after != null ? 1900 + new Date(after).getYear() : null;
-        Integer beforeYear = before != null ? 1900 + new Date(before).getYear() : null;
+        Integer afterYear = null;
+        Integer beforeYear =  null;
+        if (after!=null) {
+            Calendar calafter = Calendar.getInstance();
+            calafter.setTime(new Date(after));
+            afterYear = calafter.get(Calendar.YEAR);
+        }
+
+        if (before!=null) {
+            Calendar calbefore = Calendar.getInstance();
+            calbefore.setTime(new Date(before));
+            beforeYear = calbefore.get(Calendar.YEAR);
+        }
+
         return shipRepository.getShips(name, planet, type, afterYear, beforeYear, isUsed, minSpeed, maxSpeed,
                 minCrewSize, maxCrewSize, minRating, maxRating, pageable);
     }
