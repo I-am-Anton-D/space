@@ -18,7 +18,7 @@ public interface ShipRepository extends JpaRepository<Ship, Long> {
             "CASE WHEN :planet IS NOT NULL THEN planet like %:planet% ELSE TRUE END AND " +
             "CASE WHEN :shipType IS NOT NULL THEN shipType = :shipType ELSE TRUE END AND " +
             "CASE WHEN :after IS NOT NULL THEN prodDate >= :after ELSE TRUE END AND " +
-            "CASE WHEN :before IS NOT NULL THEN prodDate <= :before ELSE TRUE END AND " +
+            "CASE WHEN :before IS NOT NULL THEN prodDate < :before ELSE TRUE END AND " +
             "CASE WHEN :isUsed IS NOT NULL THEN isUsed = :isUsed ELSE TRUE END AND " +
             "CASE WHEN :minSpeed IS NOT NULL THEN speed >= :minSpeed ELSE TRUE END AND " +
             "CASE WHEN :maxSpeed IS NOT NULL THEN speed <= :maxSpeed ELSE TRUE END AND " +
